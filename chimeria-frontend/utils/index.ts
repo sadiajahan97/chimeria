@@ -12,10 +12,3 @@ export const getInitials = (name: string) => {
 
   return (firstName[0] + lastName[0]).toUpperCase();
 };
-
-export const calculateBoundingBoxArea = (
-  boundingBox: [number, number, number, number]
-) => {
-  const [x1, y1, x2, y2] = boundingBox;
-  return Math.abs((x2 - x1) * (y2 - y1));
-};

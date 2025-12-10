@@ -1,6 +1,7 @@
 from database import prisma
 from fastapi import APIRouter, Depends, HTTPException, status
 from middlewares import verify_access_token
+from utils import image_to_data_url
 
 router = APIRouter(
     prefix="/user",
@@ -42,17 +43,20 @@ async def get_messages(
     try:
         messages = await prisma.message.find_many(
             where={"userId": user["id"]},
-            order_by={"createdAt": "asc"}
+            order=[{"createdAt": "asc"}]
         )
         
-        return [
-            {
+        result = []
+        for message in messages:
+            image_data_url = await image_to_data_url(message.image)
+            
+            result.append({
                 "content": message.content,
-                "image": message.image,
+                "image": image_data_url,
                 "role": message.role
-            }
-            for message in messages
-        ]
+            })
+        
+        return result
     
     except HTTPException:
         raise

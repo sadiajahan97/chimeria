@@ -716,10 +716,23 @@
   }
 
   .qa-input-wrapper {
-    flex-direction: column;
+    flex-wrap: wrap;
   }
 
-  .qa-submit {
+  .qa-input-wrapper > button[type="button"] {
+    flex-shrink: 0;
+    order: 1;
+  }
+
+  .qa-input-wrapper > div.flex-1 {
+    min-width: 0;
+    flex: 1 1 0%;
+    order: 2;
+  }
+
+  .qa-input-wrapper > button[type="submit"] {
     width: 100%;
+    order: 3;
+    margin-top: 12px;
   }
 }

@@ -9,12 +9,12 @@ export const UserMessage = ({
   image,
 }: {
   content: string;
-  image?: string;
+  image: string | null;
 }) => {
   const { profile } = useProfile();
 
   return (
-    <div className="chat-message user">
+    <div className="chat-message user items-center">
       <div className="message-avatar user">
         {getInitials(profile?.name || "")}
       </div>

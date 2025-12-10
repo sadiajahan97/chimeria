@@ -12,7 +12,7 @@ services:
   api:
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
     build: ./chimeria-backend
     environment:
       DATABASE_URL: postgres://postgres:p0stgr3s@db:5432/yolo
@@ -29,6 +29,8 @@ services:
       timeout: 30s
       retries: 5
       start_period: 5s
+    volumes:
+      - img:/app/images
     ports:
       - 8000:8000
   db:
@@ -49,3 +51,4 @@ services:
       start_period: 5s
 volumes:
   db: ~
+  img: ~

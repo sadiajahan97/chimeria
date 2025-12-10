@@ -1,10 +1,10 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const YOLO_BACKEND_URL = process.env.NEXT_PUBLIC_YOLO_BACKEND_URL;
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const api = axios.create({
-  baseURL: YOLO_BACKEND_URL,
+  baseURL: BACKEND_URL,
 });
 
 api.interceptors.request.use(
@@ -51,7 +51,7 @@ api.interceptors.response.use(
 );
 
 const authApi = axios.create({
-  baseURL: `${YOLO_BACKEND_URL}/auth`,
+  baseURL: `${BACKEND_URL}/auth`,
   withCredentials: true,
 });
 
@@ -101,9 +101,9 @@ export const getProfile = async () => await api.get("/user/profile");
 
 export const getMessages = async () => await api.get("/user/messages");
 
-export const askGemini = async (file: File, question: string) => {
+export const askGemini = async (file: File | null, question: string) => {
   const formData = new FormData();
-  formData.append("file", file);
+  if (file) formData.append("file", file);
   formData.append("question", question);
 
   return await api.post("/gemini/ask", formData, {

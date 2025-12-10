@@ -43,7 +43,7 @@ export const Header = () => {
               <circle cx="12" cy="13" r="4" />
             </svg>
           </div>
-          <h1>AI Vision Platform</h1>
+          <h1>Chimeria</h1>
         </div>
         <div className="user-menu">
           {!isLoading && !error && (
