@@ -1,0 +1,51 @@
+services:
+  app:
+    depends_on:
+      api:
+        condition: service_started
+    build:
+      context: ./chimeria-frontend
+      args:
+        BACKEND_URL: http://localhost:8000
+    ports:
+      - 3000:3000
+  api:
+    depends_on:
+      db:
+        condition: service_started
+    build: ./chimeria-backend
+    environment:
+      DATABASE_URL: postgres://postgres:p0stgr3s@db:5432/yolo
+    env_file:
+      - path: ./chimeria-backend/.env
+        required: false
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8000
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p0stgr3s
+      POSTGRES_DB: yolo
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+volumes:
+  db: ~
